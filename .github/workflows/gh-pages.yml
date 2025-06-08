@@ -27,7 +27,13 @@ jobs:
         run: echo "No build step required"
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+        env:
+          GIT_SSH_COMMAND: ssh -i deploy_key -o StrictHostKeyChecking=no
+        run: |
+          git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
+          npm install
+          echo "No build step required"
+          git checkout -b gh-pages
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+          git push origin gh-pages -f
