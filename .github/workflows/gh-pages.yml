@@ -31,6 +31,8 @@ jobs:
           GIT_SSH_COMMAND: ssh -i deploy_key -o StrictHostKeyChecking=no
         run: |
           git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
+          git config --global user.email "loganbwu@example.com"
+          git config --global user.name "loganbwu"
           npm install
           echo "No build step required"
           git checkout -b gh-pages
