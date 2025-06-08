@@ -4,7 +4,28 @@ const sizeOf = require('image-size').imageSize;
 
 const directoryPath = path.join(__dirname, 'photos', 'polefolio');
 const indexPath = path.join(__dirname, 'index.html');
-const templatePath = path.join(__dirname, 'index.html.template');
+const standardAgreementPath = path.join(__dirname, 'standard_agreement.html');
+const firstShootPath = path.join(__dirname, 'first_shoot.html');
+const templatePath = path.join(__dirname, 'base.html.template');
+
+const standardAgreementPartialPath = path.join(__dirname, 'standard_agreement_partial.html');
+const firstShootPartialPath = path.join(__dirname, 'first_shoot_partial.html');
+
+let standardAgreementContent;
+try {
+    standardAgreementContent = fs.readFileSync(standardAgreementPartialPath, 'utf8');
+} catch (err) {
+    console.error('Unable to read standard_agreement_partial.html: ' + err);
+    standardAgreementContent = '';
+}
+
+let firstShootContent;
+try {
+    firstShootContent = fs.readFileSync(firstShootPartialPath, 'utf8');
+} catch (err) {
+    console.error('Unable to read first_shoot_partial.html: ' + err);
+    firstShootContent = '';
+}
 
 fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, filelistData) {
   if (err) {
@@ -51,7 +72,7 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
 
       thumbnailHTML += `
         <div class="grid__item-container js-grid-item-container" style="flex-basis: ${flexBasis}%;">
-          <img src="photos/polefolio/${imageFile}" alt="${imageFile}" class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy" style="aspect-ratio: ${aspectRatio}; height: 100%; object-fit: cover;">
+          <img src="photos/polefolio/${imageFile}" alt="${imageFile}" class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy" style="aspect-ratio: ${aspectRatio}; height: 100%; object-fit: cover;" onclick="openLightbox('photos/polefolio/${imageFile}')">
         </div>
       `;
     });
@@ -60,20 +81,42 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
 
   fs.readFile(templatePath, 'utf8', function (err, data) {
     if (err) {
-      return console.log('Unable to read index.html.template: ' + err);
+      return console.log('Unable to read base.html.template: ' + err);
     }
 
-    console.log('Original index.html.template content: ' + data);
+    console.log('Original base.html.template content: ' + data);
 
-    const newHTML = data.replace('<!-- IMAGE_GALLERY_PLACEHOLDER -->', thumbnailHTML);
+    let newIndexHTML = data.replace('<!-- CONTENT_PLACEHOLDER -->', thumbnailHTML);
 
-    fs.writeFile(indexPath, newHTML, function (err) {
+    let newFirstShootHTML = data.replace('<!-- CONTENT_PLACEHOLDER -->', firstShootContent);
+
+    let newStandardAgreementHTML = data.replace('<!-- CONTENT_PLACEHOLDER -->', standardAgreementContent);
+
+    fs.writeFile(indexPath, newIndexHTML, function (err) {
       if (err) {
         return console.log('Unable to write index.html: ' + err);
       }
 
       console.log('index.html updated successfully!');
       console.log('index.html rebuilt!');
+    });
+
+    fs.writeFile(firstShootPath, newFirstShootHTML, function (err) {
+      if (err) {
+        return console.log('Unable to write first_shoot.html: ' + err);
+      }
+
+      console.log('first_shoot.html updated successfully!');
+      console.log('first_shoot.html rebuilt!');
+    });
+
+    fs.writeFile(standardAgreementPath, newStandardAgreementHTML, function (err) {
+      if (err) {
+        return console.log('Unable to write standard_agreement.html: ' + err);
+      }
+
+      console.log('standard_agreement.html updated successfully!');
+      console.log('standard_agreement.html rebuilt!');
     });
   });
 });

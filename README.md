@@ -1,5 +1,7 @@
 # Photos by Logan Wu
 
+**Note:** The `index.html` file is automatically generated from `index.html.template`. Do not modify `index.html` directly; instead, edit `index.html.template` and run `build.js` to regenerate the `index.html` file.
+
 This is the source code for my photography portfolio website, hosted on [photosby.loganwu.co.nz](https://photoswy.loganwu.co.nz) via GitHub Pages. It showcases my work with pole dance and aerial arts studios, where I do event photography and run photoshoots. The site is lightweight, static, and easy to maintain.
 
 ---
@@ -29,8 +31,10 @@ __Phase 2: Static Album Viewer__
 - Adobe Portfolio style layout: Maximum of 3 images per row, new row only if previous row is full. Images retain original aspect ratio. All images in a row have equal heights. Width (and scaling factor) is determined by scaling the entire row to fill the page or content div width. Consistent margins/padding between all photos.
 
 - [ ] Albums are exported from Lightroom into `photos/[album-name]/` (User needs to provide the images)
-- [ ] JavaScript scans folders and renders thumbnails + lightbox modal viewer
+- [ ] JavaScript scans folders and renders thumbnails + clicking an image should display it in fullscreen or full window
 - [ ] Responsive grid layout for albums using CSS Grid or Flexbox
+
+- [ ] Implement fullscreen or full window viewer
 
 __Phase 3: Styling__
 
@@ -57,7 +61,7 @@ Here's a more detailed plan with specific steps:
      - Create thumbnail elements for each image.
      - Append the thumbnails to the `#album-viewer` div in `index.html`.
 
-   - __Implement Lightbox Modal:__ Add functionality to display the full-size image in a modal when a thumbnail is clicked.
+   - __Implement Fullscreen Image Display:__ Add functionality to display the full-size image in fullscreen or full window when a thumbnail is clicked.
 
    - __Implement Responsive Grid Layout:__ Use CSS Grid or Flexbox in `assets/css/style.css` to create a responsive grid layout for the album thumbnails.
 
@@ -94,7 +98,7 @@ __Phase 1: Basic Structure__
 __Phase 2: Static Album Viewer__
 
 - [ ] Albums are exported from Lightroom into `photos/[album-name]/` (User needs to provide the images)
-- [ ] JavaScript scans folders and renders thumbnails + lightbox modal viewer
+- [ ] JavaScript scans folders and renders thumbnails + clicking an image should display it in fullscreen or full window
 - [ ] Responsive grid layout for albums using CSS Grid or Flexbox
 
 __Phase 3: Styling__
@@ -122,7 +126,7 @@ Here's a more detailed plan with specific steps:
      - Create thumbnail elements for each image.
      - Append the thumbnails to the `#album-viewer` div in `index.html`.
 
-   - __Implement Lightbox Modal:__ Add functionality to display the full-size image in a modal when a thumbnail is clicked.
+   - __Implement Fullscreen Image Display:__ Add functionality to display the full-size image in fullscreen or full window when a thumbnail is clicked.
 
    - __Implement Responsive Grid Layout:__ Use CSS Grid or Flexbox in `assets/css/style.css` to create a responsive grid layout for the album thumbnails.
 
@@ -237,4 +241,3 @@ Here's a more detailed plan with specific steps:
                 with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   publish_dir: ./
-        ```
