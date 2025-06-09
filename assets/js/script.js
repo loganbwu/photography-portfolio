@@ -22,7 +22,7 @@ document.addEventListener('keydown', function(event) {
 
 // Mobile navigation
 const burger = document.querySelector('.header__burger'); // Burger icon
-const nav = document.querySelector('.header__nav'); // Navigation menu
+const nav = document.getElementById('mobile-nav'); // Navigation menu
 
 // Event listener to toggle the navigation menu on burger icon click
 burger.addEventListener('click', () => {
