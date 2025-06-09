@@ -2,7 +2,7 @@
 
 **Note:** The `index.html` file is automatically generated from `index.html.template`. Do not modify `index.html` directly; instead, edit `index.html.template` and run `build.js` to regenerate the `index.html` file.
 
-This is the source code for my photography portfolio website, hosted on [photosby.loganwu.co.nz](https://photoswy.loganwu.co.nz) via GitHub Pages. It showcases my work with pole dance and aerial arts studios, where I do event photography and run photoshoots. The site is lightweight, static, and easy to maintain.
+This is the source code for my photography portfolio website, hosted on [photosby.loganwu.co.nz](https://photosby.loganwu.co.nz) via GitHub Pages. It showcases my work with pole dance and aerial arts studios, where I do event photography and run photoshoots. The site is lightweight, static, and easy to maintain.
 
 ---
 
@@ -19,12 +19,26 @@ __Phase 1: Basic Structure__
   ├── index.html
   ├── about.html
   ├── contact.html
+  ├── first_shoot.html
+  ├── standard_agreement.html
   ├── photos/
   │   └── [album-name]/
   ├── assets/
   │   ├── css/
+  │   │   └── style.css
   │   └── js/
-  └── README.md
+  │       └── script.js
+  ├── partials/
+  │   ├── contact_partial.html
+  │   ├── first_shoot_partial.html
+  │   ├── footer_partial.html
+  │   └── header_partial.html
+  │   └── standard_agreement_partial.html
+  ├── package.json
+  ├── package-lock.json
+  ├── README.md
+  ├── base.html.template
+  └── build.js
   ```
 
 __Phase 2: Static Album Viewer__
@@ -44,8 +58,8 @@ __Phase 3: Styling__
 
 __Phase 4: Hosting and Deployment__
 
-- [ ] Deploy via GitHub Pages
-- [ ] Use `photosby.loganwu.co.nz` as custom domain (via CNAME file)
+- [x] Deploy via GitHub Pages
+- [x] Use `photosby.loganwu.co.nz` as custom domain (via CNAME file)
 - [ ] Push to `main` branch triggers deployment
 
 Here's a more detailed plan with specific steps:
@@ -61,9 +75,15 @@ Here's a more detailed plan with specific steps:
      - Create thumbnail elements for each image.
      - Append the thumbnails to the `#album-viewer` div in `index.html`.
 
+   (Not yet implemented)
+
    - __Implement Fullscreen Image Display:__ Add functionality to display the full-size image in fullscreen or full window when a thumbnail is clicked.
 
    - __Implement Responsive Grid Layout:__ Use CSS Grid or Flexbox in `assets/css/style.css` to create a responsive grid layout for the album thumbnails.
+
+## 📸 Available Albums
+
+- polefolio
 
 2. __Phase 3: Styling__
 
@@ -105,8 +125,8 @@ __Phase 3: Styling__
 
 __Phase 4: Hosting and Deployment__
 
-- [ ] Deploy via GitHub Pages
-- [ ] Use `photosby.loganwu.co.nz` as custom domain (via CNAME file)
+- [x] Deploy via GitHub Pages
+- [x] Use `photosby.loganwu.co.nz` as custom domain (via CNAME file)
 - [ ] Push to `main` branch triggers deployment
 
 Here's a more detailed plan with specific steps:
@@ -163,8 +183,8 @@ Here's a more detailed plan with specific steps:
 1.  Clone the repo:
 
     ```bash
-    git clone https://github.com/loganbu/photos-site.git
-    cd photos-site
+    git clone https://github.com/loganbu/photography-portfolio.git
+    cd photography-portfolio
     ```
 
 2.  Install dependencies:
