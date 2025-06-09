@@ -10,36 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: |
-          if [ -f package.json ]; then
-            npm install
-            if npm run build; then
-              echo "Build successful"
-              BUILD_DIR=build
-            else
-              echo "No build step required"
-              BUILD_DIR=.
-            fi
-          else
-            echo "No package.json found, skipping build"
-            BUILD_DIR=.
-          fi
-
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
         with:
-          folder: ${{ steps.build.outputs.BUILD_DIR }}
+          folder: .
