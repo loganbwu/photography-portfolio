@@ -27,8 +27,7 @@ jobs:
           name: github-pages
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: actions/deploy-pages@v2
         with:
-          folder: build
-          branch: main
+          artifact_name: github-pages
           token: ${{ secrets.GITHUB_TOKEN }}
