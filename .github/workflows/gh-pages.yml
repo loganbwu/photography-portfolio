@@ -29,17 +29,24 @@ jobs:
             npm install
             if npm run build; then
               echo "Build successful"
-              BUILD_DIR=build
+              echo "BUILD_DIR=build" >> $GITHUB_ENV
             else
               echo "No build step required"
-              BUILD_DIR=.
+              echo "BUILD_DIR=." >> $GITHUB_ENV
             fi
           else
             echo "No package.json found, skipping build"
-            BUILD_DIR=.
+            echo "BUILD_DIR=." >> $GITHUB_ENV
           fi
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ${{ env.BUILD_DIR }}
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
         with:
-          folder: ${{ steps.build.outputs.BUILD_DIR }}
+          artifact_name: github-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # folder: ${{ steps.build.outputs.BUILD_DIR }}
