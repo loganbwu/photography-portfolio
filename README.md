@@ -84,10 +84,6 @@ Here's a more detailed plan with specific steps:
    - __Set Up Custom Domain:__ Add a CNAME file to the repository with the custom domain `photosby.loganwu.co.nz`.
    - __Deploy Website:__ Push the code to the `main` branch to trigger deployment.
 
-I need to ask the user to provide sample images for Phase 2.
-
-Okay, I've created a detailed development plan for your website based on the 'README.md' file.
-
 Here's the plan:
 
 __Phase 1: Basic Structure__
@@ -157,87 +153,32 @@ Here's a more detailed plan with specific steps:
 - HTML5
 - CSS3
 - Vanilla JavaScript
+- image-size
 - GitHub Pages (static hosting)
 
 ---
 
 ## 🧑‍💻 Developer Workflow
 
-1. Clone the repo:
- ```bash
- git clone https://github.com/loganbu/photos-site.git
- cd photos-site
+1.  Clone the repo:
 
-2.  Implement a build script to generate the file list dynamically:
+    ```bash
+    git clone https://github.com/loganbu/photos-site.git
+    cd photos-site
+    ```
 
-    *   Install Node.js and npm: Ensure that Node.js and npm are installed on your Mac.
-    *   Create a `package.json` file: Create a `package.json` file in the root of your project by running `npm init -y`.
-    *   Create a build script: Create a JavaScript file (e.g., `build.js`) in the root of your project with the following code:
+2.  Install dependencies:
 
-        ```javascript
-        const fs = require('fs');
-        const path = require('path');
+    ```bash
+    npm install image-size
+    ```
 
-        const directoryPath = path.join(__dirname, 'photos', 'polefolio');
+3.  Run the build script:
 
-        fs.readdir(directoryPath, function (err, files) {
-            if (err) {
-                return console.log('Unable to scan directory: ' + err);
-            }
+    ```bash
+    node build.js
+    ```
 
-            const imageFiles = files.filter(file => file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png'));
+    This script will generate the `index.html`, `first_shoot.html`, and `standard_agreement.html` files based on the `base.html.template` file and the content in the `standard_agreement_partial.html` and `first_shoot_partial.html` files.
 
-            fs.writeFile(path.join(directoryPath, 'filelist.json'), JSON.stringify(imageFiles), function (err) {
-                if (err) {
-                    return console.log('Error writing file: ' + err);
-                }
-
-                console.log('filelist.json created successfully!');
-            });
-        });
-        ```
-
-    *   Add a build script to `package.json`: Add a `build` script to the `package.json` file:
-
-        ```json
-        {
-          "name": "photos-site",
-          "version": "1.0.0",
-          "description": "",
-          "main": "index.js",
-          "scripts": {
-            "build": "node build.js"
-          },
-          "keywords": [],
-          "author": "",
-          "license": "ISC"
-        }
-        ```
-
-    *   Create a GitHub Actions workflow: Create a GitHub Actions workflow file (e.g., `.github/workflows/deploy.yml`) with the following code:
-
-        ```yaml
-        name: Deploy to GitHub Pages
-
-        on:
-          push:
-            branches: [ main ]
-
-        jobs:
-          deploy:
-            runs-on: ubuntu-latest
-            steps:
-              - uses: actions/checkout@v2
-              - name: Set up Node.js
-                uses: actions/setup-node@v2
-                with:
-                  node-version: '16'
-              - name: Install dependencies
-                run: npm install
-              - name: Build website
-                run: npm run build
-              - name: Deploy to GitHub Pages
-                uses: peaceiris/actions-gh-pages@v3
-                with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./
+4.  Open the `index.html` file in your browser to view the website.

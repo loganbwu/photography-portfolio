@@ -2,42 +2,48 @@ const fs = require('fs');
 const path = require('path');
 const sizeOf = require('image-size').imageSize;
 
+// Define paths
 const directoryPath = path.join(__dirname, 'photos', 'polefolio');
 const indexPath = path.join(__dirname, 'index.html');
 const standardAgreementPath = path.join(__dirname, 'standard_agreement.html');
 const firstShootPath = path.join(__dirname, 'first_shoot.html');
+const contactPath = path.join(__dirname, 'contact.html');
 const templatePath = path.join(__dirname, 'base.html.template');
+const partialsPath = path.join(__dirname, 'partials');
+const standardAgreementPartialPath = path.join(partialsPath, 'standard_agreement_partial.html');
+const firstShootPartialPath = path.join(partialsPath, 'first_shoot_partial.html');
+const headerPartialPath = path.join(partialsPath, 'header_partial.html');
+const footerPartialPath = path.join(partialsPath, 'footer_partial.html');
+const contactPartialPath = path.join(partialsPath, 'contact_partial.html');
 
-const standardAgreementPartialPath = path.join(__dirname, 'standard_agreement_partial.html');
-const firstShootPartialPath = path.join(__dirname, 'first_shoot_partial.html');
-
-let standardAgreementContent;
-try {
-    standardAgreementContent = fs.readFileSync(standardAgreementPartialPath, 'utf8');
-} catch (err) {
-    console.error('Unable to read standard_agreement_partial.html: ' + err);
-    standardAgreementContent = '';
+// Helper function to read file content
+function readFileContent(filePath) {
+  try {
+    return fs.readFileSync(filePath, 'utf8');
+  } catch (err) {
+    console.error(`Unable to read ${filePath}: ${err}`);
+    return '';
+  }
 }
 
-let firstShootContent;
-try {
-    firstShootContent = fs.readFileSync(firstShootPartialPath, 'utf8');
-} catch (err) {
-    console.error('Unable to read first_shoot_partial.html: ' + err);
-    firstShootContent = '';
-}
+// Read partial content
+const standardAgreementContent = readFileContent(standardAgreementPartialPath);
+const firstShootContent = readFileContent(firstShootPartialPath);
+const headerContent = readFileContent(headerPartialPath);
+const footerContent = readFileContent(footerPartialPath);
+const contactContent = readFileContent(contactPartialPath);
 
+// Read filelist.json
 fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, filelistData) {
   if (err) {
     return console.log('Unable to read filelist.json: ' + err);
   }
 
   const filelist = JSON.parse(filelistData);
-
   console.log('Files found in filelist.json: ' + filelist);
 
+  // Calculate aspect ratios
   const aspectRatios = {};
-
   filelist.forEach(file => {
     try {
       const imagePath = path.join(directoryPath, file);
@@ -50,9 +56,8 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
     }
   });
 
+  // Generate thumbnail HTML
   let thumbnailHTML = '';
-
-  // Group images into rows of three
   const rows = [];
   for (let i = 0; i < filelist.length; i += 3) {
     rows.push(filelist.slice(i, i + 3));
@@ -60,11 +65,9 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
 
   rows.forEach(row => {
     thumbnailHTML += `<div class="grid__row">`;
-    // Calculate the sum of the aspect ratios for each row
     const rowAspectRatioSum = row.reduce((sum, imageFile) => sum + aspectRatios[imageFile], 0);
 
     row.forEach(imageFile => {
-      // Calculate the flex-basis value for each image
       const aspectRatio = aspectRatios[imageFile];
       const flexBasis = (aspectRatio / rowAspectRatioSum) * 100;
 
@@ -79,6 +82,7 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
     thumbnailHTML += `</div>`;
   });
 
+  // Read template file
   fs.readFile(templatePath, 'utf8', function (err, data) {
     if (err) {
       return console.log('Unable to read base.html.template: ' + err);
@@ -86,17 +90,28 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
 
     console.log('Original base.html.template content: ' + data);
 
-    let newIndexHTML = data.replace('<!-- CONTENT_PLACEHOLDER -->', thumbnailHTML);
+    // Replace placeholders
+    const newIndexHTML = data.replace('<!-- HEADER_PLACEHOLDER -->', headerContent)
+      .replace('<!-- FOOTER_PLACEHOLDER -->', footerContent)
+      .replace('<!-- CONTENT_PLACEHOLDER -->', thumbnailHTML);
 
-    let newFirstShootHTML = data.replace('<!-- CONTENT_PLACEHOLDER -->', firstShootContent);
+    const newFirstShootHTML = data.replace('<!-- HEADER_PLACEHOLDER -->', headerContent)
+      .replace('<!-- FOOTER_PLACEHOLDER -->', footerContent)
+      .replace('<!-- CONTENT_PLACEHOLDER -->', firstShootContent);
 
-    let newStandardAgreementHTML = data.replace('<!-- CONTENT_PLACEHOLDER -->', standardAgreementContent);
+    const newStandardAgreementHTML = data.replace('<!-- HEADER_PLACEHOLDER -->', headerContent)
+      .replace('<!-- FOOTER_PLACEHOLDER -->', footerContent)
+      .replace('<!-- CONTENT_PLACEHOLDER -->', standardAgreementContent);
 
+    const newContactHTML = data.replace('<!-- HEADER_PLACEHOLDER -->', headerContent)
+      .replace('<!-- FOOTER_PLACEHOLDER -->', footerContent)
+      .replace('<!-- CONTENT_PLACEHOLDER -->', contactContent);
+
+    // Write updated files
     fs.writeFile(indexPath, newIndexHTML, function (err) {
       if (err) {
         return console.log('Unable to write index.html: ' + err);
       }
-
       console.log('index.html updated successfully!');
       console.log('index.html rebuilt!');
     });
@@ -105,7 +120,6 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
       if (err) {
         return console.log('Unable to write first_shoot.html: ' + err);
       }
-
       console.log('first_shoot.html updated successfully!');
       console.log('first_shoot.html rebuilt!');
     });
@@ -114,9 +128,16 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
       if (err) {
         return console.log('Unable to write standard_agreement.html: ' + err);
       }
-
       console.log('standard_agreement.html updated successfully!');
       console.log('standard_agreement.html rebuilt!');
+    });
+
+    fs.writeFile(contactPath, newContactHTML, function (err) {
+      if (err) {
+        return console.log('Unable to write contact.html: ' + err);
+      }
+      console.log('contact.html updated successfully!');
+      console.log('contact.html rebuilt!');
     });
   });
 });
