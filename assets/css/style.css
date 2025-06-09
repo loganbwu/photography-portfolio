@@ -37,11 +37,11 @@ header {
     font-family: 'Oswald', sans-serif;
 }
 
-    .header__nav {
-        width: 40%;
-        text-align: left;
-        align-items: center;
-    }
+.header__nav {
+    width: 40%;
+    text-align: left;
+    align-items: center;
+}
 
 @media (min-width: 769px) {
     .header__nav {
