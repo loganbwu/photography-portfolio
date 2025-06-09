@@ -38,17 +38,8 @@ jobs:
             echo "No package.json found, skipping build"
             BUILD_DIR=.
           fi
-          echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-pages
-          path: ${{ env.BUILD_DIR }}
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: github-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # folder: ${{ steps.build.outputs.BUILD_DIR }}
+          folder: ${{ steps.build.outputs.BUILD_DIR }}
