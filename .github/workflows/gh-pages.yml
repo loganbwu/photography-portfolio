@@ -24,23 +24,22 @@ jobs:
         run: npm install
 
       - name: Build
-        run: echo "No build step required"
+        run: |
+          if [ -f package.json ]; then
+            npm install
+            if npm run build; then
+              echo "Build successful"
+              BUILD_DIR=build
+            else
+              echo "No build step required"
+              BUILD_DIR=.
+            fi
+          else
+            echo "No package.json found, skipping build"
+            BUILD_DIR=.
+          fi
 
       - name: Deploy to GitHub Pages
-        env:
-          GIT_SSH_COMMAND: ssh -i deploy_key -o StrictHostKeyChecking=no
-        run: |
-          git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
-          git config --global user.email "loganbwu@example.com"
-          git config --global user.name "loganbwu"
-          npm install
-          echo "No build step required"
-          git checkout -b gh-pages || git checkout --orphan gh-pages
-          git checkout main -- .
-          git add .
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Deploy to GitHub Pages"
-            git push origin gh-pages -f
-          fi
+        uses: actions/deploy-pages@v2
+        with:
+          folder: ${{ steps.build.outputs.BUILD_DIR }}
