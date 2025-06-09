@@ -31,3 +31,7 @@ jobs:
         with:
           artifact_name: github-pages
           token: ${{ secrets.GITHUB_TOKEN }}
+          # Specify the build directory as the root directory
+          # This is necessary because the website is built into the 'build' directory
+          # and GitHub Pages needs to know where the root of the website is.
+          publish_dir: ./build
