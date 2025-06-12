@@ -3,21 +3,21 @@ const path = require('path');
 const sizeOf = require('image-size').imageSize;
 
 // Define paths
-const directoryPath = path.join(__dirname, 'photos', 'polefolio');
-const buildDir = path.join(__dirname, 'build');
+const directoryPath = path.join('photos', 'polefolio');
+const buildDir = path.join('build');
 const indexPath = path.join(buildDir, 'index.html');
 const standardAgreementPath = path.join(buildDir, 'standard_agreement.html');
 const firstShootPath = path.join(buildDir, 'first_shoot.html');
 const contactPath = path.join(buildDir, 'contact.html');
-const templatePath = path.join(__dirname, 'base.html.template');
-const partialsPath = path.join(__dirname, 'partials');
-const assetsPath = path.join(__dirname, 'assets');
-const photosPath = path.join(__dirname, 'photos');
-const standardAgreementPartialPath = path.join(partialsPath, 'standard_agreement_partial.html');
-const firstShootPartialPath = path.join(partialsPath, 'first_shoot_partial.html');
-const headerPartialPath = path.join(partialsPath, 'header_partial.html');
-const footerPartialPath = path.join(partialsPath, 'footer_partial.html');
-const contactPartialPath = path.join(partialsPath, 'contact_partial.html');
+const templatePath = path.join('base.html.template');
+const partialsPath = path.join('partials');
+const assetsPath = path.join('assets');
+const photosPath = path.join('photos');
+const standardAgreementPartialPath = path.join('partials', 'standard_agreement_partial.html');
+const firstShootPartialPath = path.join('partials', 'first_shoot_partial.html');
+const headerPartialPath = path.join('partials', 'header_partial.html');
+const footerPartialPath = path.join('partials', 'footer_partial.html');
+const contactPartialPath = path.join('partials', 'contact_partial.html');
 
 // Helper function to read file content
 function readFileContent(filePath) {
