@@ -4,7 +4,7 @@ const sizeOf = require('image-size').imageSize;
 
 // Define paths
 const directoryPath = path.join('photos', 'polefolio');
-const buildDir = path.join('build');
+const buildDir = path.join('docs');
 const indexPath = path.join(buildDir, 'index.html');
 const standardAgreementPath = path.join(buildDir, 'standard_agreement.html');
 const firstShootPath = path.join(buildDir, 'first_shoot.html');
@@ -113,7 +113,7 @@ fs.readFile(path.join(directoryPath, 'filelist.json'), 'utf8', function (err, fi
     // Write updated files
     // Create the build directory if it doesn't exist
     if (!fs.existsSync(buildDir)) {
-      fs.mkdirSync(buildDir);
+      fs.mkdirSync(buildDir, { recursive: true });
     }
 
     // Copy assets directory
