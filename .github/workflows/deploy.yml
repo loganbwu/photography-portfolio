@@ -20,8 +20,10 @@ jobs:
           node-version: "20"
       - name: Install dependencies
         run: npm install
+      - name: Add build folder
+        run: mkdir build
       - name: Build website
-        run: npm run build | mkdir build
+        run: npm run build
       - name: Upload artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
